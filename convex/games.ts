@@ -59,7 +59,7 @@ export const createGame = mutation({
     const gameId = await ctx.db.insert("games", {
       code,
       gridSize,
-      status: "waiting",
+      status: deviceMode === "single" ? "setup" : "waiting",
       currentTurn: "player1",
       horizontalEdges: emptyEdges(gridSize),
       verticalEdges: emptyEdges(gridSize),
