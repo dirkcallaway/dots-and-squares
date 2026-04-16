@@ -24,6 +24,11 @@ export default defineSchema({
     horizontalEdges: v.array(v.union(v.literal("player1"), v.literal("player2"), v.null())),
     verticalEdges: v.array(v.union(v.literal("player1"), v.literal("player2"), v.null())),
     squares: v.array(v.union(v.literal("player1"), v.literal("player2"), v.null())),
+    lastMove: v.optional(v.object({
+      edgeType: v.union(v.literal("horizontal"), v.literal("vertical")),
+      edgeRow: v.number(),
+      edgeCol: v.number(),
+    })),
     deviceMode: v.union(v.literal("single"), v.literal("multi")),
     createdAt: v.number(),
     expiresAt: v.number(),

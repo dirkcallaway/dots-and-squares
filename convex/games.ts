@@ -192,6 +192,7 @@ export const placeLine = mutation({
       player2,
       currentTurn: nextTurn,
       status,
+      lastMove: { edgeType, edgeRow, edgeCol },
       ...(winner !== null ? { winner } : {}),
     });
 
@@ -223,6 +224,7 @@ export const rematch = mutation({
       player1: game.player1 ? { ...game.player1, score: 0 } : undefined,
       player2: game.player2 ? { ...game.player2, score: 0 } : undefined,
       winner: undefined,
+      lastMove: undefined,
       expiresAt: now + EXPIRY_MS,
     });
 

@@ -46,7 +46,14 @@ export function GameBoard({ game, playerNum }: Props) {
   const placeLine = useMutation(api.games.placeLine);
   const [selected, setSelected] = useState<DotCoord | null>(null);
   const [placing, setPlacing] = useState(false);
+  const [replayActive, setReplayActive] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
+
+  function handleReplay() {
+    if (!game.lastMove || replayActive) return;
+    setReplayActive(true);
+    setTimeout(() => setReplayActive(false), 1800);
+  }
 
   const { gridSize, horizontalEdges: hEdges, verticalEdges: vEdges, squares, currentTurn } = game;
   // Single-device: both players share the screen, so whoever's turn it is can always tap.
@@ -120,6 +127,17 @@ export function GameBoard({ game, playerNum }: Props) {
       <ScoreBar game={game} playerNum={playerNum} />
 
       <TurnBanner game={game} playerNum={playerNum} />
+
+      {/* Replay last move */}
+      {game.lastMove && (
+        <button
+          onClick={handleReplay}
+          disabled={replayActive}
+          className="text-sm text-zinc-500 dark:text-zinc-400 px-3 py-1 rounded-full border border-zinc-300 dark:border-zinc-600 active:scale-95 transition-transform disabled:opacity-40"
+        >
+          {replayActive ? "Replaying…" : "↩ Last move"}
+        </button>
+      )}
 
       {/* Board */}
       <div className="relative">
@@ -224,6 +242,24 @@ export function GameBoard({ game, playerNum }: Props) {
               strokeDasharray="4 3"
             />
           ))}
+
+          {/* Last-move flash overlay */}
+          {replayActive && game.lastMove && (() => {
+            const { edgeType, edgeRow, edgeCol } = game.lastMove;
+            const x1 = edgeType === "horizontal" ? dotX(edgeCol)     : dotX(edgeCol);
+            const y1 = edgeType === "horizontal" ? dotY(edgeRow)     : dotY(edgeRow);
+            const x2 = edgeType === "horizontal" ? dotX(edgeCol + 1) : dotX(edgeCol);
+            const y2 = edgeType === "horizontal" ? dotY(edgeRow)     : dotY(edgeRow + 1);
+            return (
+              <line
+                x1={x1} y1={y1} x2={x2} y2={y2}
+                stroke="white"
+                strokeWidth={10}
+                strokeLinecap="round"
+                style={{ animation: "edge-flash 0.4s ease-in-out 4" }}
+              />
+            );
+          })()}
 
           {/* Dots */}
           {Array.from({ length: dots }, (_, row) =>
