@@ -1,8 +1,13 @@
 "use client";
 
-import { useQuery } from "convex/react";
+import { useState, useEffect, useRef } from "react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { usePlayerSession } from "@/hooks/usePlayerSession";
+import {
+  loadPlayerSession,
+  savePlayerSession,
+  type PlayerSession,
+} from "@/hooks/usePlayerSession";
 import { WaitingRoom } from "./WaitingRoom";
 import { GameSetup } from "./GameSetup";
 import { GameBoard } from "./GameBoard";
@@ -14,7 +19,34 @@ interface Props {
 
 export function GamePage({ code }: Props) {
   const game = useQuery(api.games.getGameByCode, { code });
-  const session = usePlayerSession(code);
+  const joinGame = useMutation(api.games.joinGame);
+
+  const [session, setSession] = useState<PlayerSession | null>(null);
+  const [sessionLoaded, setSessionLoaded] = useState(false);
+  const autoJoinAttempted = useRef(false);
+
+  // Load session from localStorage (client-side only)
+  useEffect(() => {
+    setSession(loadPlayerSession(code));
+    setSessionLoaded(true);
+  }, [code]);
+
+  // Auto-join as Player 2 when arriving via shared link
+  useEffect(() => {
+    if (!sessionLoaded) return;
+    if (!game || game.status !== "waiting" || game.deviceMode !== "multi") return;
+    if (session) return; // already have a session
+    if (autoJoinAttempted.current) return;
+    autoJoinAttempted.current = true;
+
+    joinGame({ code }).then((result) => {
+      if ("gameId" in result && result.gameId) {
+        const newSession: PlayerSession = { gameId: result.gameId, playerNum: "player2" };
+        savePlayerSession(code, newSession);
+        setSession(newSession);
+      }
+    });
+  }, [sessionLoaded, game, session, code, joinGame]);
 
   // Loading
   if (game === undefined) {
