@@ -71,18 +71,20 @@ export function GamePage({ code }: Props) {
 
   const playerNum = session?.playerNum ?? null;
 
-  if (game.status === "waiting") {
-    return <WaitingRoom game={game} playerNum={playerNum} />;
-  }
+  return (
+    <>
+      <a
+        href="/"
+        aria-label="Back to home"
+        className="fixed top-4 left-4 z-50 w-10 h-10 rounded-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-700 text-lg shadow-sm active:scale-90 transition-transform"
+      >
+        🏠
+      </a>
 
-  if (game.status === "setup") {
-    return <GameSetup game={game} playerNum={playerNum} />;
-  }
-
-  if (game.status === "complete") {
-    return <GameOver game={game} playerNum={playerNum} />;
-  }
-
-  // active
-  return <GameBoard game={game} playerNum={playerNum} />;
+      {game.status === "waiting" && <WaitingRoom game={game} playerNum={playerNum} />}
+      {game.status === "setup" && <GameSetup game={game} playerNum={playerNum} />}
+      {game.status === "complete" && <GameOver game={game} playerNum={playerNum} />}
+      {game.status === "active" && <GameBoard game={game} playerNum={playerNum} />}
+    </>
+  );
 }
