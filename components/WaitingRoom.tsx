@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Doc } from "@/convex/_generated/dataModel";
 
 interface Props {
@@ -10,11 +10,11 @@ interface Props {
 
 export function WaitingRoom({ game }: Props) {
   const [copied, setCopied] = useState(false);
+  const [gameUrl, setGameUrl] = useState(`/game/${game.code}`);
 
-  const gameUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/game/${game.code}`
-      : `/game/${game.code}`;
+  useEffect(() => {
+    setGameUrl(`${window.location.origin}/game/${game.code}`);
+  }, [game.code]);
 
   async function copyLink() {
     try {
