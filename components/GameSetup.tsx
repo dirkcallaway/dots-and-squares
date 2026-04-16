@@ -80,7 +80,13 @@ function SetupForm({ game, playerNum, isPlayer1 }: SetupFormProps) {
       <main className="flex flex-col items-center justify-center min-h-full px-6 py-12 text-center">
         <div className="text-6xl mb-6">🤝</div>
         <h2 className="text-2xl font-bold text-zinc-800 dark:text-zinc-100 mb-3">Hand the tablet to Player 2</h2>
-        <p className="text-zinc-500 dark:text-zinc-400">Player 2 needs to pick their color and emoji.</p>
+        <p className="text-zinc-500 dark:text-zinc-400 mb-8">Player 2 needs to pick their color and emoji.</p>
+        <button
+          onClick={() => setHandoff(false)}
+          className="w-full max-w-xs py-4 rounded-2xl bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xl font-semibold active:scale-95 transition-transform"
+        >
+          I&apos;m Player 2 — Let&apos;s go!
+        </button>
       </main>
     );
   }
