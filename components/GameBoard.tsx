@@ -167,10 +167,11 @@ export function GameBoard({ game, playerNum }: Props) {
           {Array.from({ length: dots }, (_, row) =>
             Array.from({ length: gridSize }, (_, col) => {
               const idx = hEdgeIndex(gridSize, row, col);
-              const placed = hEdges[idx];
+              const owner = hEdges[idx];
               const x1 = dotX(col);
               const x2 = dotX(col + 1);
               const y = dotY(row);
+              const edgeColor = owner === "player1" ? p1Color : owner === "player2" ? p2Color : "var(--svg-edge-unplaced)";
               return (
                 <line
                   key={`h-${row}-${col}`}
@@ -178,8 +179,8 @@ export function GameBoard({ game, playerNum }: Props) {
                   y1={y}
                   x2={x2}
                   y2={y}
-                  style={{ stroke: placed ? "var(--svg-edge-placed)" : "var(--svg-edge-unplaced)" }}
-                  strokeWidth={placed ? 6 : 3}
+                  style={{ stroke: edgeColor }}
+                  strokeWidth={owner ? 6 : 3}
                   strokeLinecap="round"
                 />
               );
@@ -190,10 +191,11 @@ export function GameBoard({ game, playerNum }: Props) {
           {Array.from({ length: gridSize }, (_, row) =>
             Array.from({ length: dots }, (_, col) => {
               const idx = vEdgeIndex(gridSize, row, col);
-              const placed = vEdges[idx];
+              const owner = vEdges[idx];
               const x = dotX(col);
               const y1 = dotY(row);
               const y2 = dotY(row + 1);
+              const edgeColor = owner === "player1" ? p1Color : owner === "player2" ? p2Color : "var(--svg-edge-unplaced)";
               return (
                 <line
                   key={`v-${row}-${col}`}
@@ -201,8 +203,8 @@ export function GameBoard({ game, playerNum }: Props) {
                   y1={y1}
                   x2={x}
                   y2={y2}
-                  style={{ stroke: placed ? "var(--svg-edge-placed)" : "var(--svg-edge-unplaced)" }}
-                  strokeWidth={placed ? 6 : 3}
+                  style={{ stroke: edgeColor }}
+                  strokeWidth={owner ? 6 : 3}
                   strokeLinecap="round"
                 />
               );

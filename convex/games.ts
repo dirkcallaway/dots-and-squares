@@ -146,14 +146,14 @@ export const placeLine = mutation({
       }
       const idx = hEdgeIndex(gridSize, edgeRow, edgeCol);
       if (hEdges[idx]) return { error: "Edge already placed" };
-      hEdges[idx] = true;
+      hEdges[idx] = playerNum;
     } else {
       if (edgeRow < 0 || edgeRow >= gridSize || edgeCol < 0 || edgeCol > gridSize) {
         return { error: "Invalid edge coordinates" };
       }
       const idx = vEdgeIndex(gridSize, edgeRow, edgeCol);
       if (vEdges[idx]) return { error: "Edge already placed" };
-      vEdges[idx] = true;
+      vEdges[idx] = playerNum;
     }
 
     // Check for newly completed squares

@@ -47,8 +47,8 @@ export function squareCount(gridSize: number): number {
  */
 export function isSquareComplete(
   gridSize: number,
-  hEdges: boolean[],
-  vEdges: boolean[],
+  hEdges: (PlayerNum | null)[],
+  vEdges: (PlayerNum | null)[],
   row: number,
   col: number
 ): boolean {
@@ -56,7 +56,7 @@ export function isSquareComplete(
   const bottom = hEdgeIndex(gridSize, row + 1, col);
   const left   = vEdgeIndex(gridSize, row,     col);
   const right  = vEdgeIndex(gridSize, row,     col + 1);
-  return hEdges[top] && hEdges[bottom] && vEdges[left] && vEdges[right];
+  return hEdges[top] !== null && hEdges[bottom] !== null && vEdges[left] !== null && vEdges[right] !== null;
 }
 
 /**
@@ -65,8 +65,8 @@ export function isSquareComplete(
  */
 export function getNewlyCompletedSquares(
   gridSize: number,
-  hEdges: boolean[],
-  vEdges: boolean[],
+  hEdges: (PlayerNum | null)[],
+  vEdges: (PlayerNum | null)[],
   edgeType: EdgeType,
   edgeRow: number,
   edgeCol: number
@@ -145,17 +145,17 @@ export function adjacentDots(gridSize: number, dot: DotCoord): DotCoord[] {
  */
 export function isEdgePlaced(
   gridSize: number,
-  hEdges: boolean[],
-  vEdges: boolean[],
+  hEdges: (PlayerNum | null)[],
+  vEdges: (PlayerNum | null)[],
   a: DotCoord,
   b: DotCoord
 ): boolean {
   const edge = edgeBetweenDots(gridSize, a, b);
   if (!edge) return false;
   if (edge.type === "horizontal") {
-    return hEdges[hEdgeIndex(gridSize, edge.row, edge.col)];
+    return hEdges[hEdgeIndex(gridSize, edge.row, edge.col)] !== null;
   } else {
-    return vEdges[vEdgeIndex(gridSize, edge.row, edge.col)];
+    return vEdges[vEdgeIndex(gridSize, edge.row, edge.col)] !== null;
   }
 }
 
@@ -187,8 +187,8 @@ export function getWinner(
 
 // ── Initial state helpers ──────────────────────────────────────────────────────
 
-export function emptyEdges(gridSize: number): boolean[] {
-  return Array(edgeCount(gridSize)).fill(false);
+export function emptyEdges(gridSize: number): (PlayerNum | null)[] {
+  return Array(edgeCount(gridSize)).fill(null);
 }
 
 export function emptySquares(gridSize: number): (PlayerNum | null)[] {
