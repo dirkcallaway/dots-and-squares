@@ -19,19 +19,18 @@ export function GamePage({ code }: Props) {
   // Loading
   if (game === undefined) {
     return (
-      <div className="flex items-center justify-center min-h-full text-zinc-400 text-lg">
+      <div className="flex items-center justify-center min-h-full text-zinc-400 dark:text-zinc-500 text-lg">
         Loading…
       </div>
     );
   }
 
-  // Not found
   if (game === null) {
     return (
       <div className="flex flex-col items-center justify-center min-h-full gap-4 px-6">
-        <p className="text-2xl font-semibold text-zinc-700">Game not found</p>
-        <p className="text-zinc-500 text-center">This game may have expired or the code is incorrect.</p>
-        <a href="/" className="mt-2 py-3 px-6 rounded-xl bg-zinc-800 text-white font-semibold">
+        <p className="text-2xl font-semibold text-zinc-700 dark:text-zinc-200">Game not found</p>
+        <p className="text-zinc-500 dark:text-zinc-400 text-center">This game may have expired or the code is incorrect.</p>
+        <a href="/" className="mt-2 py-3 px-6 rounded-xl bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 font-semibold">
           Back to Home
         </a>
       </div>

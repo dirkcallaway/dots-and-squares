@@ -36,7 +36,7 @@ export function GameOver({ game, playerNum }: Props) {
         {winner === "tie" ? (
           <>
             <div className="text-6xl mb-4">🤝</div>
-            <h2 className="text-3xl font-bold text-zinc-800 mb-2">It&apos;s a Tie!</h2>
+            <h2 className="text-3xl font-bold text-zinc-800 dark:text-zinc-100 mb-2">It&apos;s a Tie!</h2>
           </>
         ) : (
           <>
@@ -46,13 +46,12 @@ export function GameOver({ game, playerNum }: Props) {
             >
               {winnerPlayer?.emoji}
             </div>
-            <h2 className="text-3xl font-bold text-zinc-800 mb-2">
+            <h2 className="text-3xl font-bold text-zinc-800 dark:text-zinc-100 mb-2">
               {isYourWin ? "You win! 🎉" : playerNum ? "You lose 😔" : `${winnerPlayer?.emoji} wins!`}
             </h2>
           </>
         )}
 
-        {/* Scores */}
         <div className="flex gap-4 justify-center mt-6 mb-8">
           <ScoreCard
             player={player1}
@@ -60,7 +59,7 @@ export function GameOver({ game, playerNum }: Props) {
             score={p1Score}
             isWinner={winner === "player1"}
           />
-          <div className="flex items-center text-zinc-400 text-xl font-bold">vs</div>
+          <div className="flex items-center text-zinc-400 dark:text-zinc-500 text-xl font-bold">vs</div>
           <ScoreCard
             player={player2}
             label="Player 2"
@@ -72,14 +71,11 @@ export function GameOver({ game, playerNum }: Props) {
         <div className="flex flex-col gap-3">
           <button
             onClick={handleRematch}
-            className="w-full py-4 rounded-2xl bg-zinc-800 text-white text-xl font-semibold active:scale-95 transition-transform"
+            className="w-full py-4 rounded-2xl bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xl font-semibold active:scale-95 transition-transform"
           >
             Rematch
           </button>
-          <a
-            href="/"
-            className="block w-full py-3 text-zinc-500 text-lg"
-          >
+          <a href="/" className="block w-full py-3 text-zinc-500 dark:text-zinc-400 text-lg">
             Back to Home
           </a>
         </div>
@@ -103,7 +99,9 @@ function ScoreCard({
   return (
     <div
       className={`flex flex-col items-center gap-2 px-6 py-4 rounded-2xl border-2 ${
-        isWinner ? "border-zinc-800 bg-zinc-50" : "border-zinc-200"
+        isWinner
+          ? "border-zinc-800 dark:border-zinc-300 bg-zinc-50 dark:bg-zinc-800"
+          : "border-zinc-200 dark:border-zinc-700"
       }`}
     >
       <div
@@ -112,8 +110,8 @@ function ScoreCard({
       >
         {player?.emoji ?? "?"}
       </div>
-      <p className="text-zinc-500 text-xs">{label}</p>
-      <p className="text-3xl font-bold text-zinc-800">{score}</p>
+      <p className="text-zinc-500 dark:text-zinc-400 text-xs">{label}</p>
+      <p className="text-3xl font-bold text-zinc-800 dark:text-zinc-100">{score}</p>
     </div>
   );
 }

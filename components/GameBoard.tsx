@@ -174,7 +174,7 @@ export function GameBoard({ game, playerNum }: Props) {
                   y1={y}
                   x2={x2}
                   y2={y}
-                  stroke={placed ? "#3f3f46" : "#e4e4e7"}
+                  style={{ stroke: placed ? "var(--svg-edge-placed)" : "var(--svg-edge-unplaced)" }}
                   strokeWidth={placed ? 6 : 3}
                   strokeLinecap="round"
                 />
@@ -197,7 +197,7 @@ export function GameBoard({ game, playerNum }: Props) {
                   y1={y1}
                   x2={x}
                   y2={y2}
-                  stroke={placed ? "#3f3f46" : "#e4e4e7"}
+                  style={{ stroke: placed ? "var(--svg-edge-placed)" : "var(--svg-edge-unplaced)" }}
                   strokeWidth={placed ? 6 : 3}
                   strokeLinecap="round"
                 />
@@ -213,7 +213,7 @@ export function GameBoard({ game, playerNum }: Props) {
               cy={dotY(adj.row)}
               r={DOT_RADIUS + 6}
               fill="none"
-              stroke="#a1a1aa"
+              style={{ stroke: "var(--svg-square-dashes)" }}
               strokeWidth={2}
               strokeDasharray="4 3"
             />
@@ -243,7 +243,7 @@ export function GameBoard({ game, playerNum }: Props) {
                       cy={cy}
                       r={DOT_RADIUS + 8}
                       fill="none"
-                      stroke="#3f3f46"
+                      style={{ stroke: "var(--svg-dot)" }}
                       strokeWidth={3}
                       className="animate-pulse"
                     />
@@ -253,7 +253,7 @@ export function GameBoard({ game, playerNum }: Props) {
                     cx={cx}
                     cy={cy}
                     r={DOT_RADIUS}
-                    fill={isSelected ? "#3f3f46" : "#3f3f46"}
+                    style={{ fill: "var(--svg-dot)" }}
                     className="pointer-events-none"
                   />
                 </g>
@@ -287,7 +287,7 @@ function ScoreBar({
         label={playerNum === "player1" ? "You" : "Player 1"}
         isCurrent={game.currentTurn === "player1"}
       />
-      <div className="text-zinc-400 text-xl font-bold">vs</div>
+      <div className="text-zinc-400 dark:text-zinc-500 text-xl font-bold">vs</div>
       <PlayerScore
         player={player2}
         color={p2Color}
@@ -312,7 +312,9 @@ function PlayerScore({
   return (
     <div
       className={`flex flex-col items-center gap-1 px-5 py-3 rounded-2xl transition-colors ${
-        isCurrent ? "bg-zinc-800" : "bg-zinc-100"
+        isCurrent
+          ? "bg-zinc-800 dark:bg-zinc-200"
+          : "bg-zinc-100 dark:bg-zinc-800"
       }`}
     >
       <div
@@ -321,10 +323,10 @@ function PlayerScore({
       >
         {player?.emoji ?? "?"}
       </div>
-      <span className={`text-xs font-medium ${isCurrent ? "text-zinc-300" : "text-zinc-500"}`}>
+      <span className={`text-xs font-medium ${isCurrent ? "text-zinc-300 dark:text-zinc-600" : "text-zinc-500 dark:text-zinc-400"}`}>
         {label}
       </span>
-      <span className={`text-2xl font-bold ${isCurrent ? "text-white" : "text-zinc-800"}`}>
+      <span className={`text-2xl font-bold ${isCurrent ? "text-white dark:text-zinc-900" : "text-zinc-800 dark:text-zinc-100"}`}>
         {player?.score ?? 0}
       </span>
     </div>
@@ -349,7 +351,9 @@ function TurnBanner({
   return (
     <div
       className={`px-5 py-2 rounded-full text-sm font-semibold ${
-        isMyTurn ? "bg-zinc-800 text-white" : "bg-zinc-100 text-zinc-600"
+        isMyTurn
+          ? "bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-900"
+          : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
       }`}
     >
       {isMyTurn

@@ -15,13 +15,12 @@ export function HomeScreen() {
   return (
     <main className="flex flex-col items-center justify-center min-h-full px-6 py-12">
       <div className="w-full max-w-sm">
-        {/* Logo / Title */}
         <div className="text-center mb-10">
           <div className="text-6xl mb-3">🟦</div>
-          <h1 className="text-4xl font-bold text-zinc-800 tracking-tight">
+          <h1 className="text-4xl font-bold text-zinc-800 dark:text-zinc-100 tracking-tight">
             Dots & Boxes
           </h1>
-          <p className="text-zinc-500 mt-2 text-lg">A classic game for two</p>
+          <p className="text-zinc-500 dark:text-zinc-400 mt-2 text-lg">A classic game for two</p>
         </div>
 
         {screen === "home" && <HomeButtons onNew={() => setScreen("new-game")} onJoin={() => setScreen("join-game")} />}
@@ -32,28 +31,24 @@ export function HomeScreen() {
   );
 }
 
-// ── Home buttons ───────────────────────────────────────────────────────────────
-
 function HomeButtons({ onNew, onJoin }: { onNew: () => void; onJoin: () => void }) {
   return (
     <div className="flex flex-col gap-4">
       <button
         onClick={onNew}
-        className="w-full py-4 rounded-2xl bg-zinc-800 text-white text-xl font-semibold active:scale-95 transition-transform"
+        className="w-full py-4 rounded-2xl bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xl font-semibold active:scale-95 transition-transform"
       >
         New Game
       </button>
       <button
         onClick={onJoin}
-        className="w-full py-4 rounded-2xl border-2 border-zinc-300 text-zinc-700 text-xl font-semibold active:scale-95 transition-transform"
+        className="w-full py-4 rounded-2xl border-2 border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200 text-xl font-semibold active:scale-95 transition-transform"
       >
         Join Game
       </button>
     </div>
   );
 }
-
-// ── New game form ──────────────────────────────────────────────────────────────
 
 function NewGameForm({ onBack }: { onBack: () => void }) {
   const router = useRouter();
@@ -76,9 +71,8 @@ function NewGameForm({ onBack }: { onBack: () => void }) {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Grid size */}
       <div>
-        <p className="text-zinc-600 font-medium mb-3">Grid size</p>
+        <p className="text-zinc-600 dark:text-zinc-300 font-medium mb-3">Grid size</p>
         <div className="flex gap-3">
           {GRID_SIZES.map((size) => (
             <button
@@ -86,8 +80,8 @@ function NewGameForm({ onBack }: { onBack: () => void }) {
               onClick={() => setGridSize(size)}
               className={`flex-1 py-3 rounded-xl text-lg font-semibold border-2 transition-colors ${
                 gridSize === size
-                  ? "border-zinc-800 bg-zinc-800 text-white"
-                  : "border-zinc-300 text-zinc-600"
+                  ? "border-zinc-800 bg-zinc-800 text-white dark:border-zinc-200 dark:bg-zinc-200 dark:text-zinc-900"
+                  : "border-zinc-300 text-zinc-600 dark:border-zinc-600 dark:text-zinc-300"
               }`}
             >
               {size + 1}×{size + 1}
@@ -99,47 +93,45 @@ function NewGameForm({ onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      {/* Device mode */}
       <div>
-        <p className="text-zinc-600 font-medium mb-3">How will you play?</p>
+        <p className="text-zinc-600 dark:text-zinc-300 font-medium mb-3">How will you play?</p>
         <div className="flex flex-col gap-2">
           <button
             onClick={() => setDeviceMode("single")}
             className={`w-full py-3 px-4 rounded-xl text-left border-2 transition-colors ${
               deviceMode === "single"
-                ? "border-zinc-800 bg-zinc-50"
-                : "border-zinc-200"
+                ? "border-zinc-800 dark:border-zinc-300 bg-zinc-50 dark:bg-zinc-800"
+                : "border-zinc-200 dark:border-zinc-700"
             }`}
           >
-            <span className="font-semibold text-zinc-800">📱 This device</span>
-            <span className="block text-sm text-zinc-500">Pass the tablet back and forth</span>
+            <span className="font-semibold text-zinc-800 dark:text-zinc-100">📱 This device</span>
+            <span className="block text-sm text-zinc-500 dark:text-zinc-400">Pass the tablet back and forth</span>
           </button>
           <button
             onClick={() => setDeviceMode("multi")}
             className={`w-full py-3 px-4 rounded-xl text-left border-2 transition-colors ${
               deviceMode === "multi"
-                ? "border-zinc-800 bg-zinc-50"
-                : "border-zinc-200"
+                ? "border-zinc-800 dark:border-zinc-300 bg-zinc-50 dark:bg-zinc-800"
+                : "border-zinc-200 dark:border-zinc-700"
             }`}
           >
-            <span className="font-semibold text-zinc-800">🔗 Two devices</span>
-            <span className="block text-sm text-zinc-500">Share a code with the other player</span>
+            <span className="font-semibold text-zinc-800 dark:text-zinc-100">🔗 Two devices</span>
+            <span className="block text-sm text-zinc-500 dark:text-zinc-400">Share a code with the other player</span>
           </button>
         </div>
       </div>
 
-      {/* Actions */}
       <div className="flex flex-col gap-3">
         <button
           onClick={handleCreate}
           disabled={loading}
-          className="w-full py-4 rounded-2xl bg-zinc-800 text-white text-xl font-semibold disabled:opacity-50 active:scale-95 transition-transform"
+          className="w-full py-4 rounded-2xl bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xl font-semibold disabled:opacity-50 active:scale-95 transition-transform"
         >
           {loading ? "Creating…" : "Start Game"}
         </button>
         <button
           onClick={onBack}
-          className="w-full py-3 text-zinc-500 text-lg"
+          className="w-full py-3 text-zinc-500 dark:text-zinc-400 text-lg"
         >
           Back
         </button>
@@ -147,8 +139,6 @@ function NewGameForm({ onBack }: { onBack: () => void }) {
     </div>
   );
 }
-
-// ── Join game form ─────────────────────────────────────────────────────────────
 
 function JoinGameForm({ onBack }: { onBack: () => void }) {
   const router = useRouter();
@@ -184,7 +174,7 @@ function JoinGameForm({ onBack }: { onBack: () => void }) {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <p className="text-zinc-600 font-medium mb-3">Enter game code</p>
+        <p className="text-zinc-600 dark:text-zinc-300 font-medium mb-3">Enter game code</p>
         <input
           type="text"
           value={code}
@@ -195,7 +185,7 @@ function JoinGameForm({ onBack }: { onBack: () => void }) {
           onKeyDown={(e) => e.key === "Enter" && handleJoin()}
           placeholder="ABC123"
           maxLength={6}
-          className="w-full py-4 px-4 rounded-xl border-2 border-zinc-300 text-3xl font-bold tracking-widest text-center uppercase focus:outline-none focus:border-zinc-600"
+          className="w-full py-4 px-4 rounded-xl border-2 border-zinc-300 dark:border-zinc-600 bg-transparent dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 text-3xl font-bold tracking-widest text-center uppercase focus:outline-none focus:border-zinc-600 dark:focus:border-zinc-400"
           autoCapitalize="characters"
           autoCorrect="off"
           spellCheck={false}
@@ -207,13 +197,13 @@ function JoinGameForm({ onBack }: { onBack: () => void }) {
         <button
           onClick={handleJoin}
           disabled={loading || code.length !== 6}
-          className="w-full py-4 rounded-2xl bg-zinc-800 text-white text-xl font-semibold disabled:opacity-40 active:scale-95 transition-transform"
+          className="w-full py-4 rounded-2xl bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xl font-semibold disabled:opacity-40 active:scale-95 transition-transform"
         >
           {loading ? "Joining…" : "Join Game"}
         </button>
         <button
           onClick={onBack}
-          className="w-full py-3 text-zinc-500 text-lg"
+          className="w-full py-3 text-zinc-500 dark:text-zinc-400 text-lg"
         >
           Back
         </button>

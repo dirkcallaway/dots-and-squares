@@ -1,7 +1,22 @@
 @import "tailwindcss";
 
+/* Class-based dark mode for toggle support */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --font-geist: "Geist", sans-serif;
+  /* SVG board colors — updated by .dark class */
+  --svg-dot: #3f3f46;
+  --svg-edge-placed: #3f3f46;
+  --svg-edge-unplaced: #e4e4e7;
+  --svg-square-dashes: #a1a1aa;
+}
+
+.dark {
+  --svg-dot: #d4d4d8;
+  --svg-edge-placed: #a1a1aa;
+  --svg-edge-unplaced: #52525b;
+  --svg-square-dashes: #71717a;
 }
 
 body {
