@@ -49,7 +49,11 @@ export function GameBoard({ game, playerNum }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const { gridSize, horizontalEdges: hEdges, verticalEdges: vEdges, squares, currentTurn } = game;
-  const isMyTurn = playerNum !== null && currentTurn === playerNum;
+  // Single-device: both players share the screen, so whoever's turn it is can always tap.
+  // Two-device: only the player matching the session can tap.
+  const isSingleDevice = game.deviceMode === "single";
+  const isMyTurn = isSingleDevice ? true : (playerNum !== null && currentTurn === playerNum);
+  const activeMover = isSingleDevice ? currentTurn : playerNum;
   const dots = gridSize + 1; // dots per side
   const svgSize = boardSize(gridSize);
 
@@ -92,7 +96,7 @@ export function GameBoard({ game, playerNum }: Props) {
       try {
         await placeLine({
           gameId: game._id,
-          playerNum: playerNum!,
+          playerNum: activeMover!,
           edgeType: edge.type,
           edgeRow: edge.row,
           edgeCol: edge.col,
